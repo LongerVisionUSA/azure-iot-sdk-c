@@ -971,6 +971,9 @@ void e2e_send_event_test_sas_invalid_proxy(IOTHUB_CLIENT_TRANSPORT_PROVIDER prot
     // Send the Event from the client
     d2cMessage = client_create_and_send_d2c(TEST_MESSAGE_CREATE_STRING);
 
+    bool dataWasRecv = client_wait_for_d2c_confirmation(d2cMessage, IOTHUB_CLIENT_CONFIRMATION_OK);
+    ASSERT_IS_TRUE(!dataWasRecv, "Device connected with invalid proxy settings"); // was received by the callback...
+
     // close the client connection
     destroy_on_device_or_module();
 
