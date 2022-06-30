@@ -952,6 +952,32 @@ static void send_event_test(IOTHUB_PROVISIONED_DEVICE* deviceToUse, IOTHUB_CLIEN
 
 }
 
+void e2e_send_event_test_sas_invalid_proxy(IOTHUB_CLIENT_TRANSPORT_PROVIDER protocol)
+{
+    HTTP_PROXY_OPTIONS proxy_options = { 0 };
+    proxy_options.host_address = "invalid.proxy.local";     //input invalid proxy here
+    proxy_options.port = 8080;                              //input invalid proxy here
+    proxy_options.username = "invaliduser";                 //input invalid proxy here
+    proxy_options.password = "invalidpassword";             //input invalid proxy here
+
+    // arrange
+    D2C_MESSAGE_HANDLE d2cMessage;
+
+    // Create the IoT Hub Data
+    client_connect_to_hub(IoTHubAccount_GetSASDevice(g_iothubAcctInfo), protocol);
+
+    IoTHubDeviceClient_SetOption(iothub_deviceclient_handle, OPTION_HTTP_PROXY, &proxy_options);
+
+    // Send the Event from the client
+    d2cMessage = client_create_and_send_d2c(TEST_MESSAGE_CREATE_STRING);
+
+    // close the client connection
+    destroy_on_device_or_module();
+
+    // cleanup
+    destroy_d2c_message_handle(d2cMessage);
+}
+
 void e2e_send_event_test_sas(IOTHUB_CLIENT_TRANSPORT_PROVIDER protocol)
 {
     send_event_test(IoTHubAccount_GetSASDevice(g_iothubAcctInfo), protocol);

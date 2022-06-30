@@ -22,6 +22,14 @@ TEST_FUNCTION_INITIALIZE(TestMethodInitialize)
     g_e2e_test_options.use_special_chars = false;
 }
 
+TEST_FUNCTION(IoTHub_MQTT_SendEvent_e2e_sas_invalid_proxy)
+{
+#ifdef AZIOT_LINUX
+    g_e2e_test_options.set_mac_address = true;
+#endif
+    e2e_send_event_test_sas_invalid_proxy(MQTT_WebSocket_Protocol);
+}
+
 TEST_FUNCTION(IoTHub_MQTT_SendEvent_e2e_sas)
 {
 #ifdef AZIOT_LINUX
