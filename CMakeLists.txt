@@ -42,6 +42,10 @@ IF(WIN32)
 endif()
 
 
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_C_STANDARD 23)
+#option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
+
 ########### CMake Options ###########
 # Testing
 option(run_e2e_tests "set run_e2e_tests to ON to run e2e tests (default is OFF)" OFF)
